@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Quotes (a project by Moloy Ghosh)</title>
+    <style>
+        .container{
+            border: 2px solid #ff0000;
+            text-align: center;
+            padding:15px;
+            margin:15px;
+        }
+        #box{
+            background-color: pink;
+            padding:15px;
+            margin: 15px;
+            color:rgb(89, 89, 37);
+        }
+        .button{
+            background-color: rgb(56, 56, 190);
+            color:white;
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="box">
+            <h3 class="text">
+                "Loveable things you truly love always stay with you."
+            </h3>
+            <p class="author">
+                -Moloy Ghosh
+            </p>
+            <div>
+                <button class="button" id="prebut">Prevuius</button>
+                <button class="button" id="nextbut">Next</button>
+            </div>
+        </div>
+        <h6>&copy; Moloy</h6>
+    </div>
+    <br>
+    <p>A Rendom Quote Maker project with javascript and Api by Moloy at the time of practice of html, css and javascript.</p>
+</body>
+<script>
+    let nextbut=document.querySelector("#nextbut");
+    let prebut=document.querySelector("#prebut");
+    let text=document.querySelector(".text");
+    let author=document.querySelector(".author");
+    let no,rem;
+    const newQuotes=()=>{
+        no=rem;
+        rem=Math.floor(Math.random()*100);
+        fetch("https://type.fit/api/quotes").then((res)=>res.json())
+        .then((data)=>{
+            text.innerHTML=`"`+data[rem].text+`"`;
+            if(data[rem].author==null){
+                author.innerHTML="-Unknown";
+            }
+            else{
+                author.innerHTML="-"+data[rem].author;
+            }
+        }).catch((error)=>console.log(error));
+    }
+    const preQuotes=()=>{
+        fetch("https://type.fit/api/quotes").then((res)=>res.json())
+        .then((data)=>{
+            text.innerHTML=`"`+data[no].text+`"`;
+            if(data[no].author==null){
+                author.innerHTML="-Unknown";
+            }
+            else{
+                author.innerHTML="-"+data[no].author;
+            }
+        }).catch((error)=>console.log(error));
+    }
+    nextbut.addEventListener("click",newQuotes);
+    prebut.addEventListener("click",preQuotes);
+    newQuotes();
+</script>
+</html>
